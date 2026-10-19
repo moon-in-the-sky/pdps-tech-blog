@@ -59,3 +59,45 @@
 ## 확장 학습의 표현
 
 현재 코드를 소재로 원리를 학습할 수 있지만, 힙 기반 병합·MVCC·리틀의 법칙·정규형 검증·정식 상태 머신 프레임워크·자원 샌드박스 등을 직접 구현했다고 표현하지 않는다. 실제 적용·실험 결과가 확보되면 근거와 함께 문서를 갱신한다.
+
+## 02편(React) 원고의 근거 — 2026-10-19 확인
+
+- 저장소: `moon-in-the-sky/pdps`
+- 확인한 브랜치·커밋: `claude/code-fix-planning-3q7615`, `f1894bf8ced8c503074e47b276d2b7c877a3cdf3` (2026-10-19T10:31:26Z)
+- 이 브랜치의 원격 최신은 `86deb67`이며, `f1894bf..86deb67`은 `web/`, `api/main.py`, `TECH_STACK.md`, `deploy/`를 바꾸지 않았다. 따라서 아래 근거는 `86deb67`에서도 같다.
+- 위 "고정 커밋"(`9a33fd1`)은 이번 확인에 쓴 로컬 복제본에 없어 두 커밋을 직접 비교하지 못했다. 같은 코드(`DataDownload.jsx`)의 줄 번호는 `L33-L75`에서 `L36-L81`로 달라졌으므로, 02편 이후 원고는 `f1894bf`의 링크를 사용한다.
+- 확인 방식: 정적 읽기. 빌드·실행·성능 측정은 하지 않았다.
+
+| 원고의 주장 | 코드 | 비고 |
+| --- | --- | --- |
+| 상위 컴포넌트가 507줄, `useState` 16개 | `ParamExplorer.jsx` (전체) | 사람이 센 값. 코드가 바뀌면 재확인 |
+| `ModuleGrid`에 전달하는 props 27개 | `ParamExplorer.jsx` L451-L464 | 사람이 센 값 |
+| 선택 상태를 부모가 보관하고 트리·목록에 전달 | `ParamExplorer.jsx` L26, L436-L464 | |
+| 계산할 수 있는 값은 상태가 아님(`linkCounts`, `currentModules`) | `ParamExplorer.jsx` L69-L77 | |
+| 펼침 상태 기본값을 채워 넣음(주석에 이유) | `ParamExplorer.jsx` L51-L64, L103 | |
+| `Set`을 복사해 갱신 | `ParamExplorer.jsx` L129-L133 등 | |
+| 폼 초깃값 변경 시 `key`로 재생성 | `ParamFormPanel.jsx` L6-L11, `ParamExplorer.jsx` L477-L486 | 주석에 이유 기록 |
+| 요청 순번(`begin`, `isCurrent`)을 데이터·오류·로딩에 적용 | `requestSequence.js` L1-L11, `DataDownload.jsx` L36-L81 | 요청 취소가 아님 |
+| 위 훅을 6개 파일에서 사용 | `Notices`, `DataUpload`, `DataDownload`, `LogModal`, `ChangeLogModal`, `ReprocessModal` | |
+| 모듈 전환 시 `selIdRef`로 오래된 응답 무시 | `ParamExplorer.jsx` L80-L91, L368 | 훅과 다른 구현 |
+| 다운로드는 `AbortController`로 취소 | `Export.jsx` L352-L379, `api.js` L101-L108 | 서버 쪽 정리는 미검증 |
+| 라우팅과 권한 확인 컴포넌트 | `App.jsx` L39-L84 | |
+| `fetch` 래퍼: 토큰 첨부, 401 처리, 업로드는 XHR | `api.js` L25-L45, L66- | |
+| 의존성 6개(실행)·10개(개발), 잠금 파일 327개 | `web/package.json`, `web/package-lock.json`(lockfileVersion 3) | 설치 용량·빌드 시간은 미측정 |
+| FastAPI가 `web/dist`를 제공, 캐시 헤더, SPA 대체 응답 | `api/main.py` L79-L122 | |
+| 폰트를 CDN 대신 로컬 패키지로 포함(주석) | `index.css` L1-L14 | |
+| Vite 개발 서버가 `/api`를 8000 포트로 전달 | `vite.config.js` | |
+| 브라우저 지원 정책(Firefox 52+, Edge 16+, Chrome 60+, Safari 제외) | `docs/수정사항/13-frontend-vite.config-2026-09-07.md`, `13-frontend-tailwind.config-2026-09-07.md` | 사용자 확정 정책의 기록 |
+| Windows 배포는 설계안이며 스크립트가 없음 | `deploy/windows/README.md`(상태: 설계안), `deploy/windows/`에 README만 있음 | 구현·검증은 72편 |
+
+### 문서 사이의 불일치 (원고에서 한쪽을 단정하지 않음)
+
+1. `TECH_STACK.md` §3.4는 상태 관리를 "Context API(`AuthContext`) — 전역 상태가 로그인 사용자 하나뿐"이라고 쓴다. 현재 코드에는 `AuthContext`와 `UploadQueueContext`가 있다.
+2. `TECH_STACK.md` §4는 프론트엔드 의존성을 사내 미러나 사전 다운로드 패키지로 오프라인 설치한다고 쓰고, `deploy/windows/README.md`는 빌드 PC에서 빌드한 결과물을 반입하므로 서버에 Node.js가 필요 없다고 쓴다. 전제가 다르다.
+
+### 확인하지 않은 것
+
+- Vite·React Router·Recharts·Tailwind CSS·자체 `fetch` 모듈을 선택할 당시의 후보와 이유. `TECH_STACK.md` §3.4의 선택 이유 표는 작성 시점과 작성자를 확인하지 못했으므로 "문서에 기록된 이유"로만 쓴다.
+- `legacy` 플러그인이 만드는 두 벌의 번들(문서 설명). 빌드 결과물은 열어 보지 않았다.
+- 다운로드 취소 시 서버 생성기가 정리된다는 `api.js` 주석의 내용.
+- 현재 화면을 실제로 배포하는 절차.

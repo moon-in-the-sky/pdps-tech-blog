@@ -33,8 +33,8 @@
 ## 현재 계획과 다음 작업
 
 - 02-1: React 소개·핵심 개념·도구 선택 기준·대안 비교·플랫폼 적용 이유. 최신 분할 초안은 `posts/02-1-react.md`.
-- 02-2: React와 함께 사용하는 도구. Vite, React Router, Recharts, Tailwind CSS, Lucide React 및 CSS·호환·검사 도구의 역할.
-- 02-3: 선택에 따라 관리해야 하는 부분. 상태 설계, 비동기 응답, 의존성, 빌드와 폐쇄망 배포.
+- 02-2: React와 함께 사용하는 도구. Vite, React Router, Recharts, Tailwind CSS, Lucide React 및 CSS·호환·검사 도구의 역할. 초안: `posts/02-2-react-tooling.md`.
+- 02-3: 선택에 따라 관리해야 하는 부분. 상태 설계, 비동기 응답, 의존성, 빌드와 폐쇄망 배포. 초안: `posts/02-3-react-management.md`.
 - 이후 선언형/명령형 UI 코드 비교, 컴포넌트 연결과 state/props, 상태 분류, 단방향 데이터 흐름과 양방향 바인딩을 개념별 학습으로 이어간다.
 - 02-1에서 상세 코드 비교·응답 순서 처리·배포 설명은 제외한다. 다음 편 예고는 FastAPI가 아닌 02-2로 연결한다.
 - 보편적인 개념을 설명한 뒤 프로젝트 사례로 연결한다. 문체는 사용자 수정본의 자연스러운 ~다체를 따른다.
@@ -53,3 +53,55 @@
 - 용도: 기획·작성 지침·코드 검토 메모·원고 보관
 
 기존 `pdps` 코드 저장소를 수정하는 작업은 이 요청에 포함하지 않는다.
+
+## 02-2·02-3 초안 작성 기록 (2026-10-19)
+
+### 초안과 범위
+
+- 02-2 `posts/02-2-react-tooling.md`: Vite, react-router-dom, Tailwind CSS 3과 PostCSS, 폼, `fetch` 래퍼, Context, Recharts, 로컬 폰트, FastAPI의 정적 제공.
+- 02-3 `posts/02-3-react-management.md`: 상태 설계, 비동기 응답(요청 순번·모듈 전환·다운로드 취소), 의존성, 빌드와 폐쇄망 배포.
+- 02-1에서 제외하기로 한 상세 코드 비교, 응답 순서 처리, 배포 설명은 02-3으로 옮겼다. 컴포넌트 연결 코드와 state/props 설명은 이후 학습 글의 몫으로 남겼다.
+- 같은 날 별도로 작성했던 02-1 안(`02-1-react-introduction.md`)은 `posts/02-1-react.md`와 겹치고 위 제외 규칙과 맞지 않아 이 저장소에 올리지 않았다.
+
+### 코드 근거
+
+- 저장소 `moon-in-the-sky/pdps`, 브랜치 `claude/code-fix-planning-3q7615`, 커밋 `f1894bf8ced8c503074e47b276d2b7c877a3cdf3`. 항목별 파일·줄 번호는 `docs/code-evidence.md`의 「02편(React) 원고의 근거」에 있다.
+- 같은 브랜치의 원격 최신 `86deb67`은 `web/`, `api/main.py`, `TECH_STACK.md`, `deploy/`를 바꾸지 않았다.
+- 기존 고정 커밋 `9a33fd1`은 확인에 쓴 복제본에 없어 직접 비교하지 못했다. 02편 이후의 코드 링크는 `f1894bf` 기준이다.
+- 확인 방식은 정적 읽기이며 빌드·실행·성능 측정은 하지 않았다.
+
+### 사용자 확인이 필요한 항목 (미확인)
+
+1. React를 처음 선택할 때 실제로 고려한 후보와 이유. 후보 비교가 없었다면 없었다고 쓴다(02-1에는 아직 반영하지 않았다).
+2. Vite, react-router-dom, Recharts, Tailwind CSS 3, 자체 `fetch` 모듈을 선택한 실제 이유와 후보(02-2). `TECH_STACK.md` §3.4의 선택 이유 표는 작성 시점과 작성자를 확인하지 못해 "문서에 기록된 이유"로만 인용했다. 지원 브라우저 정책(Firefox 52+, Edge 16+, Chrome 60+, Safari 제외)은 사용자 확정 정책이 문서에 있어 그 범위에서만 요구사항으로 썼다.
+3. 의존성의 보안 업데이트·버전 갱신을 폐쇄망에서 어떻게 하는지(02-3).
+4. 현재 화면을 실제로 배포하는 방법: 빌드 위치와 결과물 반입 방법(02-3).
+5. 목록 조회는 응답을 무시하고 다운로드는 요청을 취소하는 구분이 의도였는지(02-3).
+
+### 공식 문서 확인 결과
+
+`posts/02-1-react.md`의 도구별 비교표는 "공식 문서에서 설명하는 주요 특징"이라고 쓴다. 이번에 아래를 확인했다.
+
+- Vue 소개(vuejs.org/guide/introduction.html): 스스로를 "a JavaScript framework"로 설명한다.
+- Angular 개요(angular.dev/overview): "a web framework"로 설명하며 라우팅, 폼, 의존성 주입을 소개한다.
+- Svelte 개요(svelte.dev/docs/svelte/overview): "a framework for building user interfaces"이며 컴파일러를 사용한다고 설명한다.
+- React: 소개 페이지(react.dev, ko.react.dev 루트)가 404로 열리지 않아 "UI 라이브러리"라는 표현은 공식 페이지로 확인하지 못했다. 앞서 `ko.react.dev/learn/`의 두 문서('컴포넌트 간 State 공유하기', 'Effect가 필요하지 않은 경우')는 읽었다.
+- 위 확인은 소개 페이지의 설명 문장 수준이다. 02-1의 "라이브러리"와 "프레임워크" 구분은 일반적 구분이며 각 도구의 자기 규정과 다를 수 있다. Vue와 Svelte는 공식적으로 스스로를 프레임워크라고 부른다.
+
+### 미결정
+
+1. 기존 2편 제목에 있던 "전체 아키텍처"(화면·API·처리기·DB·파일의 역할 분담)를 어디서 다룰지.
+2. 학습 글에서 "state와 props"와 "상태의 분류"를 한 편으로 할지 두 편으로 나눌지, 그리고 7편 「상태의 단일 출처」와의 범위 구분.
+3. 양방향 바인딩이 성능을 떨어뜨린다는 주장은 검증 전에는 쓰지 않는다. 참고한 일부 글(코드잇, 이랜서)은 이를 단순화했고, 확인한 근거가 아니다.
+4. 요청 순번(`useRequestSequence`)과 `selIdRef` 비교 두 구현을 하나로 정리할지(코드 변경은 이 저장소의 범위가 아님).
+5. 02-3 이후 FastAPI(3편)와 PostgreSQL(4편)의 번호와 순서.
+
+### 문서 사이의 불일치 (코드 저장소 `pdps`는 수정하지 않음)
+
+1. `TECH_STACK.md` §3.4는 전역 상태가 `AuthContext` 하나라고 하지만 현재 코드에는 `AuthContext`와 `UploadQueueContext`가 있다.
+2. `TECH_STACK.md` §4(npm 의존성 오프라인 설치)와 `deploy/windows/README.md`(빌드 PC에서 빌드, 서버에 Node.js 불필요)의 전제가 다르다. 후자는 "설계안 — 아직 구현하지 않았다"고 밝힌다.
+
+### 참고한 외부 글
+
+사용자가 제공한 5개 중 4개(티스토리 312·282, 코드잇 WhatIsReact, 이랜서 167)를 읽었다. 라이브러리·프레임워크 정의의 기준(제어의 주체)과 개념 구성을 참고했으며 문장은 인용하지 않았다. wikidocs 197522는 접속이 403으로 막혀 읽지 못했다.
+
