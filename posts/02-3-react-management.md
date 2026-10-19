@@ -1,6 +1,7 @@
 # 02-3. React를 선택하면서 관리해야 하는 부분
 
 <!-- 구분: 개발 -->
+<!-- 유형: 설계(트레이드오프와 한계) (+ 트러블슈팅 사례) -->
 <!-- 상태: 초안 (배포 부분은 설계안 기준 — 구현 여부 확인 필요) -->
 <!-- 코드 근거: moon-in-the-sky/pdps, 브랜치 claude/code-fix-planning-3q7615, 커밋 f1894bf8ced8c503074e47b276d2b7c877a3cdf3 — web/src/pages/paramExplorer/ParamExplorer.jsx, web/src/pages/paramExplorer/ParamFormPanel.jsx, web/src/lib/requestSequence.js, web/src/pages/DataDownload.jsx, web/src/pages/Export.jsx, web/src/lib/api.js, web/package.json, api/main.py, deploy/windows/README.md -->
 <!-- 비교의 시점: 해당 없음(현재 구현의 관리 항목 정리). 문서 설계안과 구현 상태는 구분 -->

@@ -8,6 +8,7 @@
 
 - [전체 연재 계획과 React 3편 분할](docs/series-plan.md)
 - [선택 근거 중심의 작성 원칙](docs/writing-guide.md)
+- [글 유형별 전개 양식](docs/article-types.md)
 - [코드 검토 근거와 표현상 주의점](docs/code-evidence.md)
 - [지금까지의 결정과 다음 작업](docs/decisions.md)
 - [1편 최신 사용자 수정 원고](posts/01-background.md)

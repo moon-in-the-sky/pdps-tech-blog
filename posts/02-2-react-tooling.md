@@ -1,6 +1,7 @@
 # 02-2. React와 함께 사용하는 도구
 
 <!-- 구분: 개발 -->
+<!-- 유형: 설계(구성 소개) (+ 도구 비교) -->
 <!-- 상태: 초안 (각 도구의 당시 선택 이유 미확인 — [확인 필요] 표시 부분은 사용자 확인 후 작성) -->
 <!-- 코드 근거: moon-in-the-sky/pdps, 브랜치 claude/code-fix-planning-3q7615, 커밋 f1894bf8ced8c503074e47b276d2b7c877a3cdf3 — web/package.json, web/vite.config.js, web/src/App.jsx, web/src/lib/api.js, web/src/index.css, api/main.py -->
 <!-- 비교의 시점: 선택 이유는 저장소 문서(TECH_STACK.md §3.4)와 코드 주석에 기록된 내용. 작성 시점과 당시 판단 여부는 미확인 -->
